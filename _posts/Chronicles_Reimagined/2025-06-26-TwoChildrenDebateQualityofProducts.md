@@ -1,14 +1,12 @@
 ---
-title: "两小儿辩斗(Two Children Debating)"
-date: 2024-06-26 00:00:00 +0800
+title: "两小儿辩品优（Two Children Debating the Quality of Products）"
+date: 2024-06-26 23:43:54 +0800
 categories: [Chronicles Reimagined]
 tags: [evaluation, debate, children, philosophy]
 math: true
 ---
 
-## 两小儿辩品优（Two Children Debating the Quality of Products）
-
-### Chinese Version
+## Chinese Version
 
 孔子东游，见两小儿辩于市。问其故。
 
@@ -20,7 +18,7 @@ math: true
 
 两小儿笑曰：“孰为汝多知乎？”
 
-### English Version
+## English Version
 
 
 Confucius was traveling east and saw two children arguing in the marketplace. He asked them why.
