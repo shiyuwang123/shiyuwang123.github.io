@@ -1,4 +1,0 @@
-# .htmlproofer.yml
-links:
-  url_ignore:
-    - /^http:\/\/bbs\.keinsci\.com/
