@@ -46,7 +46,7 @@ jobs:
           bundler-cache: true
 
       - name: Build site
-        run: bundle exec jekyll b -d "_site${{ steps.pages.outputs.base_path }}" --url-ignore "/^http:\/\/bbs\.keinsci\.com/"
+        run: bundle exec jekyll b -d "_site${{ steps.pages.outputs.base_path }}" --enforce-https=false
         env:
           JEKYLL_ENV: "production"
 
