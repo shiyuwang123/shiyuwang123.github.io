@@ -1,6 +1,6 @@
 ---
 title: "子路、曾皙、冉有、公西华侍坐(Zilu, ZengXi, RanYou, GongxiHua sit around)"
-date: 2024-06-28 00:12:12 +0800
+date: 2025-06-28 00:12:12 +0800
 categories: [Chronicles Reimagined]
 tags: [research,aspiration, principle]
 math: true

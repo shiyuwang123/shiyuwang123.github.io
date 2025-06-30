@@ -1,6 +1,6 @@
 ---
 title: "两小儿辩品优（Two Children Debating the Quality of Products）"
-date: 2024-06-26 23:43:54 +0800
+date: 2025-06-26 23:43:54 +0800
 categories: [Chronicles Reimagined]
 tags: [evaluation, debate, children, philosophy]
 math: true

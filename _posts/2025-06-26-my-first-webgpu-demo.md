@@ -1,7 +1,6 @@
 ---
 title: "A WebGPU Debugging Journey: The Black Screen"
-author: Your Name
-date: 2025-06-26
+date: 2025-06-26 21:09:12 +0800
 categories: [Programming, WebGPU]
 tags: [graphics, debugging, jekyll]
 ---
