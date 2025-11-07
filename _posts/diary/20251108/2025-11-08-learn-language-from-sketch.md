@@ -1,0 +1,16 @@
+---
+title: "Learn Language from Sketch"
+date: 2025-11-08 00:00:00 +0800
+categories: [Diary]
+math: true
+---
+
+At the very beginning of our life, we have no idea about languages. We just see circle, square, triangle and other shapes, have the concept of how much them were, but we don't know how to say them. Still, we can correctly understand the **concept** of everything, so we just point at them and make some sounds to express our needs. Gradually, we hear our parents make some specific sounds when they point at something, and we learn to associate the sounds with the concepts. After a long time of such learning, we finally master the ability of hearing. Naturally, our innate trait of imitating makes us pronounce the sounds like our parents, and we learn to speak. After that, our parents urge us to read books and teach how to associate the symbols on books with sounds we have learned before. In this way, we learned to read. and our innate ability of imitating helps us write down the symbols we see on books. Finally, we learn to write. 
+
+So, the whole process of learning a language is actually a process of associating **concepts**, **sounds** and **symbols**. First, we associate **concepts** with **sounds**, then associate **sounds** with **symbols**. At each process, we need to construct the ability of **input** and **output**. This is the way we underwent to learn our native language. 
+
+However, when we learn a second language, we usually don't start from sketch because we have already learned a language before. In our school, our teachers only just let us associate symbols of the new language with the symbols of native language. This way looks fast at the first stage of learning, but it actually makes a barrier for us to natively master the new language. Because we build the whole system of the new language on top of the former language, which makes us always think in the way of the native language when we use the new language. This is the reason why many people can read and write a second language well, but can't speak or hear it fluently.
+
+Moreover, the most important part of reinforcing a language is to use it in our mind for our imagination. In our imagination, there is images, annotations, and sounds. The sounds in our mind helps me reinforcing such language constantly. If we build the new language on top of the native language, we always think in the way of the old language in our mind, which makes it hard to imagine in the new language. Therefore, we can't reinforce the new language effectively.
+
+Consequently, when we learn a new language, we should start from sketch again. We need to associate **concepts** with **sounds** of the new language first, then associate **sounds** with **symbols**. In this way, we can build a solid system of the new language in our mind, and use it naturally like our native language. Only in this way, we can truly master a new language. So, stop using Chinese-English dictionary to check the meaning of words, try to use monolingual dictionary of the new language instead, and start from sketch again.
