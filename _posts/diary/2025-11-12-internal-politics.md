@@ -1,6 +1,6 @@
 ---
 title: "Internal Politics"
-date: 2025-11-10 23:05:00 +0800
+date: 2025-11-11 23:20:00 +0800
 categories: [Diary]
 math: true
 ---
