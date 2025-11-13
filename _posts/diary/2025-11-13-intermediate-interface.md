@@ -55,4 +55,4 @@ Comparatively, vtk provides user the intermediate interface of rendering, which 
 
 This manor also can be used in other programs. For example, in a quantum chemistry program, we can expose the class of Molecule, SelfConsistField, DFT-D3, PolarizedContinuumModel etc to users and let them assemble the computational pipeline from their discretion and have the access to middle-stage data and integrate the inner stages with other libs to do data process, visualization etc.
 
-Consequently, in our own programs, we can learn vtk to provide intermediate interface to achieve better functionality and user experience.
+Consequently, in our own programs, we can learn from vtk to provide intermediate interface to achieve better functionality and user experience.
