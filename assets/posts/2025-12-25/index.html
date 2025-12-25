@@ -1,0 +1,402 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <title>Deep Learning Prediction of Formation Enthalpy</title>
+
+    <!-- Reveal.js CSS (CDN) -->
+    <link rel="stylesheet" href="https://unpkg.com/reveal.js@4.5.0/dist/reset.css">
+    <link rel="stylesheet" href="https://unpkg.com/reveal.js@4.5.0/dist/reveal.css">
+    <link rel="stylesheet" href="https://unpkg.com/reveal.js@4.5.0/dist/theme/white.css">
+
+    <!-- Theme for code syntax highlighting -->
+    <link rel="stylesheet" href="https://unpkg.com/reveal.js@4.5.0/plugin/highlight/monokai.css">
+
+    <!-- Custom CSS -->
+    <style>
+        :root {
+            --scu-blue: #1b3a88; /* Deep blue from PDF */
+            --accent: #c0392b;   /* Red accent */
+            --text-grey: #2c3e50;
+        }
+        
+        body {
+            color: var(--text-grey);
+        }
+
+        /* Header styling to match PDF */
+        .reveal h1, .reveal h2, .reveal h3, .reveal h4, .reveal h5 {
+            color: var(--scu-blue);
+            font-weight: bold;
+            text-transform: none; /* Keep original casing */
+            margin-top: 0px
+            
+        }
+        
+        /* Layout Helpers */
+        .split-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+        }
+        .split-col {
+            flex: 1;
+        }
+
+        /* Box styling for diagrams */
+        .flow-box {
+            border: 2px solid var(--scu-blue);
+            background: #f0f4ff;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 10px 0;
+            box-shadow: 3px 3px 5px rgba(0,0,0,0.1);
+        }
+
+        /* Image styling */
+        .reveal img.diagram {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+            background: white;
+            max-height: 400px; /* Prevent images from being too tall */
+        }
+
+        /* Table styling */
+        .reveal table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.65em;
+            margin-bottom: 20px;
+        }
+        .reveal th {
+            background-color: var(--scu-blue);
+            color: white;
+            text-align: center;
+            padding: 10px;
+            border: 1px solid #ddd;
+        }
+        .reveal td {
+            border: 1px solid #ddd;
+            text-align: center;
+            padding: 8px;
+        }
+
+        /* FULL REFERENCE FOOTER STYLING */
+        .reference-footer {
+            position: absolute;
+            bottom: -60px;
+            left: 0;
+            width: 100%;
+            font-size: 0.35em; /* Small font to fit full text */
+            color: #7f8c8d;
+            text-align: left;
+            border-top: 1px solid #ccc;
+            padding-top: 5px;
+            line-height: 1.2;
+            background-color: transparent; 
+            z-index: 10;
+        }
+    </style>
+</head>
+<body>
+    <div class="reveal">
+        <div class="slides">
+
+            <!-- Slide 1: Title -->
+            <section>
+                <div style="background-color: var(--scu-blue); color: white; padding: 40px; border-radius: 15px;">
+                    <h2 style="color: white;">Deep Learning Prediction of Formation Enthalpy</h2>
+                    <h4 style="color: #cbd5e1;">Bridging the Gap from DFT Accuracy to Experimental Precision</h4>
+                    <p style="font-size: 0.6em; margin-top: 30px;">Principles of Combined Pretraining and Fine-Tuning Method</p>
+                </div>
+                <div style="margin-top: 50px;">
+                    <p><strong>Shiyu Wang, Zhihan Meng, Chunlei Yang</strong></p>
+                    <p style="font-size: 0.8em; color: #555;">Sichuan University</p>
+                    <p style="font-size: 0.6em; color: #888;">December 22, 2025</p>
+                </div>
+            </section>
+
+            <!-- Slide 2: Outline -->
+            <section>
+                <h2>Outline</h2>
+                <ol style="font-size: 1.2em; line-height: 2em;">
+                    <li>Background and Challenges</li>
+                    <li>Method Principle Details</li>
+                    <li>Results</li>
+                    <li>Conclusion</li>
+                </ol>
+            </section>
+
+            <!-- PART 1: BACKGROUND -->
+            <section>
+                <section>
+                    <h2>Background: The Cost of Accuracy</h2>
+                    <div class="split-container" style="font-size: 0.8em;">
+                        <div class="split-col">
+                            <div class="flow-box fragment">
+                                <h4>Experimental</h4>
+                                <p>Gold Standard</p>
+                                <p style="color: var(--accent);">High Cost, Scarce Data</p>
+                            </div>
+                        </div>
+                        <div class="split-col">
+                            <div class="flow-box fragment">
+                                <h4>CCSD(T) Calculation</h4>
+                                <p>Computational Gold Standard</p>
+                                <p style="color: var(--accent);">Extreme Complexity $\Theta(N^7)$</p>
+                            </div>
+                        </div>
+                        <div class="split-col">
+                            <div class="flow-box fragment">
+                                <h4>DFT Calculations</h4>
+                                <p>Relatively Cheap $\Theta(N^3)$</p>
+                                <p>Abundant Data</p>
+                                <p style="color: var(--accent);">Systematic Errors (~7.7 kcal/mol)</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="fragment" style="margin-top: 2px; border-top: 2px dashed #ccc; padding-top: 2px; font-size: 0.8em">
+                        <h4 style="color: var(--scu-blue);">The Core Question</h4>
+                        <p>How can we utilize abundant, cheap DFT data to accurately predict scarce, experimental-precision formation enthalpies?</p>
+                    </div>
+                </section>
+
+                <section>
+                    <h2>Why Traditional ML Fails</h2>
+                    <div class="split-container">
+                        <div class="split-col" style="font-size: 0.8em;">
+                            <h4 style="color: var(--accent);">The Problem</h4>
+                            <ul>
+                                <li class="fragment" style="margin-bottom: 15px;"><strong>High-Precision Data + GNN:</strong> Training on ~400 experimental points leads to severe <span style="color:var(--accent)">overfitting</span>.</li>
+                                <li class="fragment"><strong>DFT Data + GNN:</strong> Models learn "DFT Physics" (which contains bias), not "Real-world Physics."</li>
+                            </ul>
+                        </div>
+                        <div class="split-col flow-box fragment">
+                            <h4>Our Solution: CPTFT</h4>
+                            <p><strong>Combined Pretraining and Fine-Tuning</strong></p>
+                            <ol style="font-size: 0.8em;">
+                                <li><strong>Pretrain:</strong> Learn Physical Laws (Topology) from big DFT data.</li>
+                                <li><strong>Fine-tune:</strong> Learn "Error Correction" from small Experimental data.</li>
+                            </ol>
+                        </div>
+                    </div>
+                </section>
+            </section>
+
+            <!-- PART 2: METHODOLOGY (SchNet) -->
+            <section>
+                <section>
+                    <h2>Stage 1: Architecture Logic</h2>
+                    <p style="font-size: 0.7em;">The workflow: Pretrain on QM9 (DFT), Freeze, then Fine-tune on Experimental Data.</p>
+                    
+                    <!-- INSERTED IMAGE 1: ARCHITECTURE -->
+                    <div class="r-stretch">
+                        <img src="model_architecture.png" class="diagram" alt="CPTFT Model Architecture">
+                    </div>
+
+                    <div class="split-container" style="font-size: 0.6em; margin-top: 10px;">
+                        <div class="split-col">
+                            <strong>1. Feature Extractor (SchNet):</strong><br>
+                            Frozen during Stage 2.
+                        </div>
+                        <div class="split-col">
+                            <strong>2. Calibrator (NN):</strong><br>
+                            Learns residual $\Delta = H_{Exp} - H_{DFT}$.
+                        </div>
+                    </div>
+                    <div class="reference-footer">
+                        Reference: GuanYa Yang, Wai Yuet Chiu, Jiang Wu, Yi Zhou, ShuGuang Chen, WeiJun Zhou, Jiaqi Fan, GuanHua Chen. Predicting Experimental Heats of Formation via Deep Learning with Limited Experimental Data. J. Phys. Chem. A 2022 126 (36), 6295-6300.
+                    </div>
+                </section>
+
+                <section>
+                    <h2>Deep Dive: SchNet</h2>
+                    <p style="font-size: 0.8em">Handling continuous positions via Continuous Filter Convolutions.</p>
+                    <div class="r-stretch">
+                        <!-- VIDEO 1: SchNet Visualization -->
+                        <video src="SchNet.mp4" loop controls style="width: 100%; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.2);"></video>
+                    </div>
+                    <div style="font-size: 0.6em; margin-bottom: 40px;">
+                        \[ e_k(d_{ij}) = \exp(-\gamma ||d_{ij} - \mu_k||^2) \quad \rightarrow \quad h_i^{l+1} = h_i^l + \sum h_j^l \cdot W(d_{ij}) \]
+                    </div>
+                    <div class="reference-footer">
+                        Reference: GuanYa Yang, Wai Yuet Chiu, Jiang Wu, Yi Zhou, ShuGuang Chen, WeiJun Zhou, Jiaqi Fan, GuanHua Chen. Predicting Experimental Heats of Formation via Deep Learning with Limited Experimental Data. J. Phys. Chem. A 2022 126 (36), 6295-6300.
+                    </div>
+                </section>
+            </section>
+
+            <!-- PART 2: METHODOLOGY (Bayesian) -->
+            <section>
+                <section>
+                    <h2>Stage 2: Bayesian Regularization</h2>
+                    <p>Solving the "Small Data" problem by maximizing Evidence.</p>
+                    <div class="r-stretch">
+                        <!-- VIDEO 2: Bayesian Visualization -->
+                        <video src="Bayesian.mp4" loop controls style="width: 100%; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.2);"></video>
+                    </div>
+                    <div class="split-container" style="font-size: 0.7em; margin-bottom: 40px;">
+                        <div class="split-col">
+                            <strong>Objective:</strong><br>
+                            Maximize Marginal Likelihood.
+                        </div>
+                        <div class="split-col">
+                            <strong>Mechanism:</strong><br>
+                            Auto-tuning $\alpha$ (penalty) to prevent overfitting.
+                        </div>
+                    </div>
+                    <div class="reference-footer">
+                        Reference: GuanYa Yang, Wai Yuet Chiu, Jiang Wu, Yi Zhou, ShuGuang Chen, WeiJun Zhou, Jiaqi Fan, GuanHua Chen. Predicting Experimental Heats of Formation via Deep Learning with Limited Experimental Data. J. Phys. Chem. A 2022 126 (36), 6295-6300.
+                    </div>
+                </section>
+            </section>
+
+            <!-- PART 3: RESULTS -->
+            <section>
+                <section>
+                    <h2>Results: Precision and Efficiency</h2>
+                    
+                    <div class="split-container">
+                        <!-- Left Column: Table and Explanation -->
+                        <div class="split-col" style="flex: 1;">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Method</th>
+                                        <th>MAE (kcal/mol)</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>SchNet (DFT)</td>
+                                        <td>7.7</td>
+                                    </tr>
+                                    <tr style="background-color: #e8f8f5;">
+                                        <td><strong>CPTFT</strong></td>
+                                        <td><strong>1.8</strong></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div class="flow-box">
+                                <p style="font-size: 0.6em; margin:0;"><strong>Efficiency Leap:</strong><br>DFT scales as $\Theta(N^3)$, while our model is linear $\Theta(N)$.</p>
+                            </div>
+                        </div>
+
+                        <!-- Right Column: INSERTED IMAGE 2 (Efficiency Plot) -->
+                        <div class="split-col" style="flex: 1.5;">
+                            <img src="efficiency_plots.png" class="diagram" alt="Computation Time Plot" style="width: 100%;">
+                        </div>
+                    </div>
+
+                    <div class="reference-footer">
+                        Reference: GuanYa Yang, Wai Yuet Chiu, Jiang Wu, Yi Zhou, ShuGuang Chen, WeiJun Zhou, Jiaqi Fan, GuanHua Chen. Predicting Experimental Heats of Formation via Deep Learning with Limited Experimental Data. J. Phys. Chem. A 2022 126 (36), 6295-6300.
+                    </div>
+                </section>
+
+                <section>
+                    <h2>Implementation Demo</h2>
+                    <pre><code class="language-python" data-trim data-line-numbers style="max-height: 1000px;">
+> python main.py
+============== Formation Enthalpy Predictor ==============
+Please input the SMILES of molecule:  O=CC1(CN1)C=0
+--------------------------------------------------------------------
+SMILES string provided: O=CC1(CN1)C=0
+Stage 1: DFT-level prediction
+--------------------------------------------------------------------
+Initializing SchNet model (pretrained on QM9)...
+Predicting enthalpy of formation at DFT precision...
+
+DFT-level enthalpy of formation:
+  ΔH_f(DFT) =  -30.34 kcal/mol
+Stage 2: Experimental-level correction
+--------------------------------------------------------------------
+Applying post-DFT correction model (calibrated to experimental data)...
+
+Estimated DFT → experiment correction:
+  Δ(DFT → exp) =  3.68 kcal/mol
+--------------------------------------------------------------------
+Experimental-level enthalpy of formation:
+  ΔH_f(exp) =  -26.66 kcal/mol
+================ Prediction completed successfully =================
+                    </code></pre>
+                </section>
+            </section>
+
+            <!-- PART 4: RECENT IMPROVEMENTS -->
+            <section>
+                <h2>2025 Improvements: CBH-BDC</h2>
+                <div class="split-container">
+                    <div class="split-col" style="flex: 1;">
+                        <ul style="font-size: 0.6em;">
+                            <li><strong>Method:</strong> Connectivity-Based Hierarchy (CBH) cancels systematic errors via isodesmic reactions.</li>
+                            <li><strong>Video:</strong> Visualizing the fragment decomposition.</li>
+                        </ul>
+                         <!-- VIDEO 3: CBH-BDC Visualization -->
+                         <video src="CBH_BDC.mp4" loop controls style="width: 100%; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.2);"></video>
+                    </div>
+
+                    <!-- INSERTED IMAGE 3: ACCURACY PARITY PLOT -->
+                    <div class="split-col" style="flex: 1;">
+                        <img src="accuracy_parity_plot.png" class="diagram" alt="Parity Plot 2025" style="width: 100%;">
+                        <p style="font-size: 0.7em; color: var(--accent); font-weight: bold;">Result: MAE reduced to 0.65 kcal/mol</p>
+                    </div>
+                </div>
+                
+                <div class="reference-footer">
+                    Reference: Mengxin Yang, Shiyu Wang, Guanlin Song, Longhui Cheng, Haisheng Ren. CBH-BDC Enhanced Δ-ML for Predicting the Accurate Standard Enthalpy of Formation. J. Phys. Chem. A 2025, 129, 5901-5910.
+                </div>
+            </section>
+
+            <!-- PART 5: CONCLUSION -->
+            <section>
+                <h2>Core Conclusions</h2>
+                <div class="split-container">
+                    <div class="split-col flow-box fragment">
+                        <h4>Accuracy & Efficiency</h4>
+                        <p style="font-size: 0.7em;">Combines physical foundation of DFT with fitting power of Deep Learning.</p>
+                    </div>
+                    <div class="split-col flow-box fragment">
+                        <h4>Small Data Victory</h4>
+                        <p style="font-size: 0.7em;">Bayesian Residual Calibration works even with < 500 data points.</p>
+                    </div>
+                    <div class="split-col flow-box fragment">
+                        <h4>Generalizability</h4>
+                        <p style="font-size: 0.7em;">Theoretically extendable to predicting other expensive molecular properties.</p>
+                    </div>
+                </div>
+                <div class="reference-footer">
+                    Reference: GuanYa Yang, Wai Yuet Chiu, Jiang Wu, Yi Zhou, ShuGuang Chen, WeiJun Zhou, Jiaqi Fan, GuanHua Chen. Predicting Experimental Heats of Formation via Deep Learning with Limited Experimental Data. J. Phys. Chem. A 2022 126 (36), 6295-6300.
+                </div>
+            </section>
+
+            <section>
+                <h1 style="font-size: 3em;">Thank You!</h1>
+                <h3 style="color: #7f8c8d;">Sichuan University</h3>
+                <p>December 2025</p>
+            </section>
+
+        </div>
+    </div>
+
+    <!-- Reveal.js Scripts -->
+    <script src="https://unpkg.com/reveal.js@4.5.0/dist/reveal.js"></script>
+    <script src="https://unpkg.com/reveal.js@4.5.0/plugin/notes/notes.js"></script>
+    <script src="https://unpkg.com/reveal.js@4.5.0/plugin/markdown/markdown.js"></script>
+    <script src="https://unpkg.com/reveal.js@4.5.0/plugin/highlight/highlight.js"></script>
+    <script src="https://unpkg.com/reveal.js@4.5.0/plugin/math/math.js"></script>
+
+    <script>
+        // Initialize Reveal
+        Reveal.initialize({
+            hash: true,
+            center: true,
+            slideNumber: true,
+            // Learn more about plugins: https://revealjs.com/plugins/
+            plugins: [ RevealMarkdown, RevealHighlight, RevealNotes, RevealMath.KaTeX ]
+        });
+    </script>
+</body>
+</html>
