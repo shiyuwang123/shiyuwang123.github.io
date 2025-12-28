@@ -100,6 +100,12 @@
             background-color: transparent; 
             z-index: 10;
         }
+
+        .diagram {
+            max-height: 100%;
+            max-width: 100%;
+            object-fit: contain;
+        }
     </style>
 </head>
 <body>
@@ -111,12 +117,12 @@
                 <div style="background-color: var(--scu-blue); color: white; padding: 40px; border-radius: 15px;">
                     <h2 style="color: white;">Deep Learning Prediction of Formation Enthalpy</h2>
                     <h4 style="color: #cbd5e1;">Bridging the Gap from DFT Accuracy to Experimental Precision</h4>
-                    <p style="font-size: 0.6em; margin-top: 30px;">Principles of Combined Pretraining and Fine-Tuning Method</p>
+                    <!--p style="font-size: 0.6em; margin-top: 30px;">Principles of Combined Pretraining and Fine-Tuning Method</p> -->
                 </div>
                 <div style="margin-top: 50px;">
                     <p><strong>Shiyu Wang, Zhihan Meng, Chunlei Yang</strong></p>
                     <p style="font-size: 0.8em; color: #555;">Sichuan University</p>
-                    <p style="font-size: 0.6em; color: #888;">December 22, 2025</p>
+                    <p style="font-size: 0.6em; color: #888;">December 29, 2025</p>
                 </div>
             </section>
 
@@ -190,8 +196,8 @@
             <!-- PART 2: METHODOLOGY (SchNet) -->
             <section>
                 <section>
-                    <h2>Stage 1: Architecture Logic</h2>
-                    <p style="font-size: 0.7em;">The workflow: Pretrain on QM9 (DFT), Freeze, then Fine-tune on Experimental Data.</p>
+                    <h2>Architecture Logic</h2>
+                    <p style="font-size: 0.7em;">Train GNN on DFT data, Freeze, then correct on Experimental Data.</p>
                     
                     <!-- INSERTED IMAGE 1: ARCHITECTURE -->
                     <div class="r-stretch">
@@ -212,27 +218,27 @@
                         Reference: GuanYa Yang, Wai Yuet Chiu, Jiang Wu, Yi Zhou, ShuGuang Chen, WeiJun Zhou, Jiaqi Fan, GuanHua Chen. Predicting Experimental Heats of Formation via Deep Learning with Limited Experimental Data. J. Phys. Chem. A 2022 126 (36), 6295-6300.
                     </div>
                 </section>
+            </section>
 
-                <section>
-                    <h2>Deep Dive: SchNet</h2>
-                    <p style="font-size: 0.8em">Handling continuous positions via Continuous Filter Convolutions.</p>
-                    <div class="r-stretch">
+            <section>
+                <h2>SchNet: simulator of DFT</h2>
+                <p style="font-size: 0.8em">Handling continuous positions via Continuous Filter Convolutions.</p>
+                <div class="r-stretch">
                         <!-- VIDEO 1: SchNet Visualization -->
-                        <video src="SchNet.mp4" loop controls style="width: 100%; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.2);"></video>
-                    </div>
-                    <div style="font-size: 0.6em; margin-bottom: 40px;">
+                    <video src="SchNet.mp4" loop controls style="width: 100%; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.2);"></video>
+                </div>
+                <div style="font-size: 0.6em; margin-bottom: 40px;">
                         \[ e_k(d_{ij}) = \exp(-\gamma ||d_{ij} - \mu_k||^2) \quad \rightarrow \quad h_i^{l+1} = h_i^l + \sum h_j^l \cdot W(d_{ij}) \]
-                    </div>
-                    <div class="reference-footer">
-                        Reference: GuanYa Yang, Wai Yuet Chiu, Jiang Wu, Yi Zhou, ShuGuang Chen, WeiJun Zhou, Jiaqi Fan, GuanHua Chen. Predicting Experimental Heats of Formation via Deep Learning with Limited Experimental Data. J. Phys. Chem. A 2022 126 (36), 6295-6300.
-                    </div>
-                </section>
+                </div>
+                <div class="reference-footer">
+                    Reference: GuanYa Yang, Wai Yuet Chiu, Jiang Wu, Yi Zhou, ShuGuang Chen, WeiJun Zhou, Jiaqi Fan, GuanHua Chen. Predicting Experimental Heats of Formation via Deep Learning with Limited Experimental Data. J. Phys. Chem. A 2022 126 (36), 6295-6300.
+                </div>
             </section>
 
             <!-- PART 2: METHODOLOGY (Bayesian) -->
             <section>
                 <section>
-                    <h2>Stage 2: Bayesian Regularization</h2>
+                    <h2>Bayesian Regularization</h2>
                     <p>Solving the "Small Data" problem by maximizing Evidence.</p>
                     <div class="r-stretch">
                         <!-- VIDEO 2: Bayesian Visualization -->

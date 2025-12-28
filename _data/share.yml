@@ -28,8 +28,8 @@ platforms:
     icon: "fa-brands fa-mastodon"
   #   # See: https://github.com/justinribeiro/share-to-mastodon#properties
   #   instances:
-  #     - label: mastodon.social
-  #       link: "https://mastodon.social/"
+    label: mastodon.social
+    link: "https://mastodon.social/"
   #     - label: mastodon.online
   #       link: "https://mastodon.online/"
   #     - label: fosstodon.org
@@ -37,10 +37,10 @@ platforms:
   #     - label: photog.social
   #       link: "https://photog.social/"
   #
-  # - type: Bluesky
-  #   icon: "fa-brands fa-bluesky"
-  #   link: "https://bsky.app/intent/compose?text=TITLE%20URL"
-  #
+  - type: Bluesky
+    icon: "fa-brands fa-bluesky"
+    link: "https://bsky.app/intent/compose?text=TITLE%20URL"
+
   - type: Reddit
     icon: "fa-brands fa-square-reddit"
     link: "https://www.reddit.com/submit?url=URL&title=TITLE"

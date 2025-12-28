@@ -8,6 +8,6 @@ math: on
 I'm an undergraduate student in Sichuan University, who will share something seems like profound or useful or interesting in this website.
 
 <figure style="text-align:center;">
-  <img src="/assets/pics/flag.jpg" alt="My personal flag" style="max-width:100%;height:auto;">
+  <img src="/assets/pics/flag.webm" alt="My personal flag" style="max-width:100%;height:auto;">
   <figcaption>Figure 1. My personal flag.</figcaption>
 </figure>
