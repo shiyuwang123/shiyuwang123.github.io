@@ -1,0 +1,81 @@
+@import "tailwindcss";
+@import "katex/dist/katex.min.css";
+
+@theme {
+  --font-sans: var(--font-inter);
+  --font-mono: var(--font-jetbrains-mono);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-border: var(--border);
+  --color-primary: var(--primary);
+}
+
+@layer base {
+  :root {
+    --background: #f8fafc;
+    --foreground: #0f172a;
+    --muted: #f1f5f9;
+    --muted-foreground: #64748b;
+    --border: #e2e8f0;
+    --primary: #2563eb;
+    --accent-1: #e11d48;
+    --accent-2: #4f46e5;
+    --accent-3: #ea580c;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --background: #0f172a;
+      --foreground: #f8fafc;
+      --muted: #1e293b;
+      --muted-foreground: #94a3b8;
+      --border: #334155;
+      --primary: #3b82f6;
+      --accent-1: #f43f5e;
+      --accent-2: #6366f1;
+      --accent-3: #f97316;
+    }
+  }
+
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-sans), sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
+
+.prose {
+  @apply max-w-none;
+}
+.prose p {
+  @apply leading-relaxed mb-6 text-[1.1rem] text-[var(--foreground)];
+}
+.prose h1, .prose h2, .prose h3, .prose h4 {
+  @apply font-semibold tracking-tight mt-12 mb-6;
+}
+.prose h1 { @apply text-5xl; }
+.prose h2 { @apply text-4xl border-b border-[var(--border)] pb-4; }
+.prose h3 { @apply text-2xl; }
+.prose a {
+  @apply text-[var(--primary)] hover:underline;
+}
+.prose ul {
+  @apply list-disc list-inside mb-6 space-y-2 text-[1.1rem];
+}
+.prose ol {
+  @apply list-decimal list-inside mb-6 space-y-2 text-[1.1rem];
+}
+.prose blockquote {
+  @apply border-l-4 border-[var(--border)] pl-6 italic text-[var(--muted-foreground)] mb-6 text-xl;
+}
+.prose img {
+  @apply rounded-3xl my-12 mx-auto shadow-2xl border border-[var(--border)]/50;
+}
+.prose hr {
+  @apply my-12 border-[var(--border)];
+}
+
