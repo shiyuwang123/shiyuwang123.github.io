@@ -16,3 +16,4 @@ To run the project locally:
 3. Open `http://localhost:3000` in your browser.
 
 For detailed documentation on how to write posts and use the site's APIs, please visit the `/docs` page on the website.
+=======
