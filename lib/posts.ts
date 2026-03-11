@@ -9,12 +9,20 @@ export interface PostMeta {
 
 export const posts: PostMeta[] = [
   {
+    slug: 'from-noether-to-thermodynamics',
+    title: 'From Noether Theorem to Thermodynamics',
+    date: '2026-03-11 12:49:00 +0800',
+    categories: ['Physics', 'Mathematics'],
+    tags: ['Noether', 'Thermodynamics', 'Symmetry', 'Calculus'],
+    isHighlight: true
+  },
+  {
     slug: 'hello-world',
     title: 'Hello World',
     date: '2025-06-25 00:00:00 +0800',
     categories: [],
     tags: [],
-    isHighlight: true
+    isHighlight: false
   },
   {
     slug: 'two-children-debating',
@@ -29,7 +37,8 @@ export const posts: PostMeta[] = [
     title: '子路、曾皙、冉有、公西华侍坐(Zilu, ZengXi, RanYou, GongxiHua sit around)',
     date: '2025-06-28 00:12:12 +0800',
     categories: ['Chronicles Reimagined'],
-    tags: ['research', 'aspiration', 'principle']
+    tags: ['research', 'aspiration', 'principle'],
+    isHighlight: true
   },
   {
     slug: 'special-property-battle',
@@ -85,7 +94,8 @@ export const posts: PostMeta[] = [
     title: 'Anti Sex, Anti Gender',
     date: '2025-11-09 00:00:00 +0800',
     categories: ['Diary'],
-    tags: []
+    tags: [],
+    isHighlight: true
   },
   {
     slug: 'the-real-freedom',
@@ -152,3 +162,4 @@ export function getPostsByCategory(category: string) {
 export function getPostsByTag(tag: string) {
   return getAllPosts().filter(post => post.tags.includes(tag));
 }
+

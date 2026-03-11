@@ -7,6 +7,13 @@ const footerData = {
   tools: 'Software & Tools',
   links: {
     orgs: [
+      { name: 'Association for the Philosophy of Mathematical Practice', url: 'https://www.philmathpractice.org/' },
+      { name: 'International Mathematical Union', url: 'https://www.mathunion.org/' },
+      { name: 'American Mathematical Society', url: 'https://www.ams.org/' },
+      { name: 'European Mathematical Society', url: 'https://euromathsoc.org/' },
+      { name: 'Center for the Fundamental Laws of Nature', url: '#' },
+      { name: 'American Physical Society', url: 'https://www.aps.org/' },
+      { name: 'European Physical Society', url: 'https://www.eps.org/' },
       { name: 'IAQMS', url: 'http://www.iaqms.org/' },
       { name: 'WATOC', url: 'https://watoc.net/' },
       { name: 'IUPAC', url: 'https://iupac.org/' },
@@ -105,7 +112,7 @@ export default function Footer() {
       <div className="max-w-6xl mx-auto px-6">
         <div className="mb-12">
           <h2 className="text-2xl font-semibold tracking-tight mb-8 text-center">{footerData.linksTitle}</h2>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             <div className="space-y-4">
               <h3 className="font-medium text-foreground">{footerData.orgs}</h3>
@@ -145,3 +152,4 @@ export default function Footer() {
     </footer>
   );
 }
+
