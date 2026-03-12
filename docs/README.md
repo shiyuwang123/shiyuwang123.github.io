@@ -16,23 +16,11 @@ as well as the provided `CodeBlock` and `Math` components for rich content.
 
 ### 3. Register the post
 
-Open `lib/posts.ts` and add your new post's metadata to the `posts` array.
+You don't need to do anything else! The blog automatically scans the `app/posts/` directory and extracts the metadata (title, date, categories, tags, isHighlight) directly from your `page.tsx` file.
 
 ### 4. Set Highlights for the Home Page
 
-To manually choose which posts appear in the "Highlights" section on the home page, add the `isHighlight: true` property to the post's metadata in `lib/posts.ts`.
-
-```typescript
-// Example in lib/posts.ts
-{
-  slug: 'my-new-post',
-  title: 'My New Post',
-  date: '2026-01-01 12:00:00 +0800',
-  categories: ['Tech'],
-  tags: ['nextjs'],
-  isHighlight: true // Add this line to feature the post on the home page
-}
-```
+To manually choose which posts appear in the "Highlights" section on the home page, simply add the `isHighlight={true}` prop to the `<PostLayout>` component in your post's `page.tsx` file.
 
 ### Example Post Template
 
@@ -48,6 +36,7 @@ export default function MyNewPost() {
       date="2026-01-01 12:00:00 +0800"
       categories={['Tech']}
       tags={['nextjs', 'react']}
+      isHighlight={true}
     >
       <p>This is the introduction to my new post.</p>
       
@@ -148,6 +137,7 @@ The main wrapper for blog posts. Handles typography, metadata, and animations.
 - `date` (string): The publication date.
 - `categories` (string[]): Optional array of categories.
 - `tags` (string[]): Optional array of tags.
+- `isHighlight` (boolean): Optional. Set to `true` to feature the post on the home page.
 - `children` (ReactNode): The content of the post.
 
 #### `<CodeBlock />`

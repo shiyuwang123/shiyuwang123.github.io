@@ -6,6 +6,7 @@ export default function Post() {
       title="Anti Sex, Anti Gender"
       date="2025-11-09 00:00:00 +0800"
       categories={['Diary']}
+      isHighlight={true}
     >
       <p>Pull the memory back to our childhood, we had no idea about gender at the beginning of our cognition, We just played with all kids without any discriminations. The only weird thing was just some kids With long hair liked to play with dolls, while some kids with short hair liked to play with cars. We just thought that was personal preferences, and we didn't care about it and played happily together without any bias. What a great time!</p>
       <p>However, as we grew up, our parents and teachers told us to distinguish boys and girls and treat them differently. They said boys should be strong and brave, while girls should be careful and gentle, and told boys to do more physical works. Gradually, there formed an iron curtain between so-called boys and girls.</p>

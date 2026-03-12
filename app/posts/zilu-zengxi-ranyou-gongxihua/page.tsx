@@ -7,6 +7,7 @@ export default function Post() {
       date="2025-06-28 00:12:12 +0800"
       categories={['Chronicles Reimagined']}
       tags={['research', 'aspiration', 'principle']}
+      isHighlight={true}
     >
       <h2>Chinese version</h2>
       <p>子路、曾皙、冉有、公西华侍坐。</p>

@@ -7,6 +7,7 @@ export default function Post() {
     <PostLayout
       title="Hello World"
       date="2025-06-25 00:00:00 +0800"
+      isHighlight={false}
     >
       <h2>Hello World</h2>
       <p>my first post.<br />试一下中文</p>

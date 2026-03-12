@@ -3,7 +3,7 @@ import Link from 'next/link';
 const footerData = {
   rights: 'Axiom Wang. All rights reserved.',
   linksTitle: 'Friendly Links',
-  orgs: 'Organizations',
+  orgs: 'Scholar Organizations',
   tools: 'Software & Tools',
   links: {
     orgs: [
@@ -11,7 +11,7 @@ const footerData = {
       { name: 'International Mathematical Union', url: 'https://www.mathunion.org/' },
       { name: 'American Mathematical Society', url: 'https://www.ams.org/' },
       { name: 'European Mathematical Society', url: 'https://euromathsoc.org/' },
-      { name: 'Center for the Fundamental Laws of Nature', url: '#' },
+      { name: 'Center for the Fundamental Laws of Nature', url: 'https://hetg.physics.harvard.edu' },
       { name: 'American Physical Society', url: 'https://www.aps.org/' },
       { name: 'European Physical Society', url: 'https://www.eps.org/' },
       { name: 'IAQMS', url: 'http://www.iaqms.org/' },
@@ -87,7 +87,7 @@ const footerData = {
         category: 'Resources & Organizations',
         items: [
           { name: 'Kitware', url: 'https://www.kitware.com/' },
-          { name: 'Z-Library', url: 'https://z-lib.org/' },
+          { name: 'Z-Library', url: 'https://z-lib.su/' },
           { name: 'Wikipedia', url: 'https://www.wikipedia.org/' },
           { name: 'W3C', url: 'https://www.w3.org/' },
           { name: 'Khronos Group', url: 'https://www.khronos.org/' }
@@ -97,7 +97,7 @@ const footerData = {
         category: 'AI Models & Platforms',
         items: [
           { name: 'OpenAI', url: 'https://openai.com/' },
-          { name: 'Gemini', url: 'https://gemini.google.com/' },
+          { name: 'Gemini', url: 'https://aistudio.google.com/' },
           { name: 'DeepSeek', url: 'https://www.deepseek.com/' },
           { name: 'Qwen', url: 'https://qwenlm.github.io/' }
         ]

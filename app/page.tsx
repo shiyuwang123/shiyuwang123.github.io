@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import Image from 'next/image';
-import { getHighlightedPosts } from '@/lib/posts';
+import { getHighlightedPosts, formatDate } from '@/lib/posts';
 import FadeIn from '@/components/FadeIn';
 
 export default function Home() {
@@ -47,7 +47,7 @@ export default function Home() {
                   </h3>
                   <div className="flex items-center gap-4 text-base text-muted-foreground font-medium">
                     <time dateTime={post.date}>
-                      {new Date(post.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+                      {formatDate(post.date)}
                     </time>
                     {post.categories.length > 0 && (
                       <span>&middot; {post.categories.join(', ')}</span>

@@ -7,6 +7,7 @@ export default function Post() {
       date="2025-06-26 23:43:54 +0800"
       categories={['Chronicles Reimagined']}
       tags={['evaluation', 'debate', 'children', 'philosophy']}
+      isHighlight={true}
     >
       <h2>Chinese Version</h2>
       <p>孔子东游，见两小儿辩于市。问其故。</p>

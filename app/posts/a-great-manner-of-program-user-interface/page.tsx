@@ -7,6 +7,7 @@ export default function Post() {
       title="A Great manner of program user interface"
       date="2025-11-10 23:05:00 +0800"
       categories={['Diary']}
+      isHighlight={true}
     >
       <p>When it comes to program designing, there are some aspects to evaluate the quality of a program. From the standpoint of users, the most important aspects are functionality and usability. Functionality is determined by the inner definitions of the classes, functions, inside libraries of the program, while usability is only determined by the user interface of the program. Paying attention to achieve better user interface is relatively easy, while often neglected by programmers. Let's discuss which manner of user interface is best.</p>
       <p>Historically, there are two kinds of user interface: command line interface(CLI) and graphical user interface(GUI). Someone thinks GUI is better for users to easily control the program, however, the low-level process of a GUI program is still based on CLI commands, more importantly, the user experience of GUI is highly dependent on the quality of the design of the GUI. Some developers keep elegant and user-friendly GUI design like Apple, while some developers use ugly GUI frameworks like TCL/Tk or Tkinter to build ugly GUI programs. The quality of GUI is highly uneven, meanwhile, building a good GUI is a costly work, which requires a lot of cooperation between programmers and designers, which is only available to big companies.</p>

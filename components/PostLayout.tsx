@@ -9,10 +9,25 @@ interface PostLayoutProps {
   date: string;
   categories?: string[];
   tags?: string[];
+  isHighlight?: boolean;
   children: ReactNode;
 }
 
-export default function PostLayout({ title, date, categories = [], tags = [], children }: PostLayoutProps) {
+function formatDate(dateString: string) {
+  const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+  const match = dateString.match(/^(\d{4})-(\d{2})-(\d{2})/);
+  if (match) {
+    const year = parseInt(match[1], 10);
+    const month = parseInt(match[2], 10) - 1;
+    const day = parseInt(match[3], 10);
+    return `${months[month]} ${day}, ${year}`;
+  }
+  const date = new Date(dateString);
+  if (isNaN(date.getTime())) return dateString;
+  return date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+}
+
+export default function PostLayout({ title, date, categories = [], tags = [], isHighlight, children }: PostLayoutProps) {
   return (
     <motion.article 
       initial={{ opacity: 0, y: 20 }}
@@ -23,7 +38,7 @@ export default function PostLayout({ title, date, categories = [], tags = [], ch
       <header className="mb-12 text-center">
         <h1 className="text-4xl md:text-5xl font-semibold tracking-tight mb-6 leading-tight">{title}</h1>
         <div className="flex flex-wrap items-center justify-center gap-4 text-sm text-muted-foreground">
-          <time dateTime={date}>{new Date(date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</time>
+          <time dateTime={date}>{formatDate(date)}</time>
           
           {categories.length > 0 && (
             <div className="flex items-center gap-2">
