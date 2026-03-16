@@ -28,10 +28,8 @@ export default function Post() {
       For news, read Lianhe Zaobao.
       For U.S. President, vote for Gavin Newsom.
       For work, choose Singapore.
-      
-      <p>Recently, I’ve been making my own image — surrounded by the logos of Google, Apple, Kitware, Hu Chenfeng, and others. I think that looks great, because for ordinary people, choosing these means you’ll never be wrong — you won’t get burned. If I recommended a bunch of random options and you ended up suffering for it, you’d probably blame me, right?</p>
-      
-      <p>That’s why in life, you must always choose the truly good brands and the right information sources. Otherwise, your cost of living won’t just be higher — it’ll feel like stepping in shit.</p>
+      Recently, I’ve been making my own image — surrounded by the logos of Google, Apple, Kitware, Hu Chenfeng, and others. I think that looks great, because for ordinary people, choosing these means you’ll never be wrong — you won’t get burned. If I recommended a bunch of random options and you ended up suffering for it, you’d probably blame me, right?
+      That’s why in life, you must always choose the truly good brands and the right information sources. Otherwise, your cost of living won’t just be higher — it’ll feel like stepping in shit.</p>
       
     </PostLayout>
   );

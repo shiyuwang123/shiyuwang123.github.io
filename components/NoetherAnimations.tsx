@@ -29,7 +29,7 @@ function drawArrow(ctx: CanvasRenderingContext2D, x: number, y: number, angle: n
   ctx.moveTo(0, 0);
   ctx.lineTo(length, 0);
   ctx.stroke();
-
+  
   ctx.beginPath();
   ctx.moveTo(length, 0);
   ctx.lineTo(length - 6, -4);
@@ -39,10 +39,17 @@ function drawArrow(ctx: CanvasRenderingContext2D, x: number, y: number, angle: n
 }
 
 // ==========================================
-// 1. PendulumSim (Vectors vs Scalars)
+// 1. LeastActionSim (Principle of Least Action)
 // ==========================================
-export function PendulumSim() {
+export function LeastActionSim() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const [c, setC] = useState(0); // Start with a straight line (c=0)
+  const cRef = useRef(0);
+  const timeRef = useRef(0);
+
+  useEffect(() => {
+    cRef.current = c;
+  }, [c]);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -51,111 +58,127 @@ export function PendulumSim() {
     if (!ctx) return;
 
     let animationFrameId: number;
-    let angle = Math.PI / 4;
-    let aVelocity = 0;
-    let aAcceleration = 0;
-    const len = 140;
-    const originX = 140;
-    const originY = 30;
-    const gravity = 0.4;
 
     const render = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
+      const currentC = cRef.current;
+      
+      // Update time for the moving particle
+      timeRef.current += 0.015;
+      if (timeRef.current > 2) timeRef.current = 0;
+      const t = timeRef.current;
 
-      // Physics
-      aAcceleration = (-1 * gravity / len) * Math.sin(angle);
-      aVelocity += aAcceleration;
-      angle += aVelocity;
-      aVelocity *= 0.996; // Damping
+      const isOptimal = Math.abs(currentC - 5) < 0.1;
 
-      const bobX = originX + len * Math.sin(angle);
-      const bobY = originY + len * Math.cos(angle);
+      // --- Left Pane: Trajectory ---
+      ctx.fillStyle = '#888888';
+      ctx.font = '14px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText("Particle Trajectory (Space)", 220, 30);
 
-      // Left Side Divider
-      ctx.strokeStyle = '#d2d2d7';
+      // Draw ground line
+      ctx.strokeStyle = 'rgba(150, 150, 150, 0.3)';
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.moveTo(30, 280);
+      ctx.lineTo(440, 280);
+      ctx.stroke();
+
+      // Draw True Path (faint green dashed line)
+      ctx.strokeStyle = 'rgba(34, 197, 94, 0.4)';
+      ctx.lineWidth = 2;
+      ctx.setLineDash([5, 5]);
+      ctx.beginPath();
+      for(let u = 0; u <= 2; u += 0.05) {
+          const px = 50 + (u / 2) * 340;
+          const py = 280 - (5 * u * (2 - u)) * 20;
+          if (u === 0) ctx.moveTo(px, py);
+          else ctx.lineTo(px, py);
+      }
+      ctx.stroke();
+      ctx.setLineDash([]);
+
+      // Draw Current Path
+      ctx.strokeStyle = isOptimal ? '#22c55e' : '#3b82f6';
+      ctx.lineWidth = 3;
+      ctx.beginPath();
+      for(let u = 0; u <= 2; u += 0.05) {
+          const px = 50 + (u / 2) * 340;
+          const py = 280 - (currentC * u * (2 - u)) * 20;
+          if (u === 0) ctx.moveTo(px, py);
+          else ctx.lineTo(px, py);
+      }
+      ctx.stroke();
+
+      // Draw Moving Particle
+      const bx = 50 + (t / 2) * 340;
+      const by = 280 - (currentC * t * (2 - t)) * 20;
+      
+      setShadow(ctx, 0, 4, 8, isOptimal ? 'rgba(34, 197, 94, 0.4)' : 'rgba(59, 130, 246, 0.4)');
+      ctx.fillStyle = isOptimal ? '#22c55e' : '#3b82f6';
+      ctx.beginPath();
+      ctx.arc(bx, by, 8, 0, Math.PI*2);
+      ctx.fill();
+      clearShadow(ctx);
+
+      // Start & End points
+      ctx.fillStyle = '#1d1d1f';
+      ctx.beginPath(); ctx.arc(50, 280, 4, 0, Math.PI*2); ctx.fill();
+      ctx.beginPath(); ctx.arc(390, 280, 4, 0, Math.PI*2); ctx.fill();
+      ctx.fillStyle = '#888888';
+      ctx.fillText("A", 50, 300);
+      ctx.fillText("B", 390, 300);
+
+      // --- Right Pane: Action Graph ---
+      ctx.fillStyle = '#888888';
+      ctx.fillText("Action (S) vs Path", 580, 30);
+
+      // Draw axes for graph
+      ctx.strokeStyle = 'rgba(150, 150, 150, 0.3)';
       ctx.lineWidth = 1;
       ctx.beginPath();
-      ctx.moveTo(350, 20);
-      ctx.lineTo(350, 300);
+      ctx.moveTo(480, 280 - (0 - (-10)) * 5); // S=0 line
+      ctx.lineTo(680, 280 - (0 - (-10)) * 5);
       ctx.stroke();
 
-      // String & Pivot
-      ctx.strokeStyle = '#86868b';
-      ctx.lineWidth = 2;
+      // Draw Action Curve (Parabola)
+      ctx.strokeStyle = '#a855f7';
+      ctx.lineWidth = 3;
       ctx.beginPath();
-      ctx.moveTo(originX, originY);
-      ctx.lineTo(bobX, bobY);
+      for(let dc = 0; dc <= 10; dc += 0.2) {
+          const S = 25 + (4/3)*dc*dc - (40/3)*dc;
+          const cx = 480 + (dc / 10) * 200;
+          const cy = 280 - (S + 10) * 5;
+          if (dc === 0) ctx.moveTo(cx, cy);
+          else ctx.lineTo(cx, cy);
+      }
       ctx.stroke();
 
-      ctx.fillStyle = '#1d1d1f';
+      // Draw Minimum Line
+      ctx.strokeStyle = 'rgba(34, 197, 94, 0.3)';
+      ctx.setLineDash([4, 4]);
       ctx.beginPath();
-      ctx.arc(originX, originY, 4, 0, 2 * Math.PI);
+      ctx.moveTo(480 + 100, 280 - (-8.33 + 10) * 5);
+      ctx.lineTo(480 + 100, 280);
+      ctx.stroke();
+      ctx.setLineDash([]);
+
+      // Draw Current Action Point
+      const currentS = 25 + (4/3)*currentC*currentC - (40/3)*currentC;
+      const cx = 480 + (currentC / 10) * 200;
+      const cy = 280 - (currentS + 10) * 5;
+
+      setShadow(ctx, 0, 2, 6, 'rgba(0,0,0,0.2)');
+      ctx.fillStyle = isOptimal ? '#22c55e' : '#ef4444';
+      ctx.beginPath();
+      ctx.arc(cx, cy, 6, 0, Math.PI*2);
       ctx.fill();
-
-      // Bob with shadow
-      setShadow(ctx, 0, 8, 16, 'rgba(0,0,0,0.15)');
-      ctx.fillStyle = '#f5f5f7';
-      ctx.strokeStyle = '#d2d2d7';
-      ctx.lineWidth = 2;
-      ctx.beginPath();
-      ctx.arc(bobX, bobY, 20, 0, 2 * Math.PI);
-      ctx.fill();
-      ctx.stroke();
       clearShadow(ctx);
 
-      // Vector Arrows
-      drawArrow(ctx, bobX, bobY, Math.PI / 2, 60, '#ff3b30'); // Gravity
-      drawArrow(ctx, bobX, bobY, angle - Math.PI / 2, 50 * Math.cos(angle), '#0071e3'); // Tension
-      drawArrow(ctx, bobX, bobY, angle, Math.abs(aVelocity) * 400, '#34c759'); // Velocity
-
-      ctx.fillStyle = '#1d1d1f';
-      ctx.textAlign = 'center';
-      ctx.font = 'bold 15px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif';
-      ctx.fillText("Newtonian (Vectors)", originX, 260);
-      ctx.font = '12px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif';
-      ctx.fillStyle = '#ff3b30';
-      ctx.fillText("Gravity", originX - 40, 285);
-      ctx.fillStyle = '#0071e3';
-      ctx.fillText("Tension", originX + 20, 285);
-
-      // Right Side: Lagrangian Energy Bars
-      ctx.fillStyle = '#1d1d1f';
-      ctx.font = 'bold 15px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif';
-      ctx.fillText("Lagrangian (Scalars)", 525, 40);
-
-      const v_squared = (len * aVelocity) * (len * aVelocity);
-      const K = 0.5 * v_squared;
-      const h = len - len * Math.cos(angle);
-      const V = gravity * h * 60;
-      const E = K + V;
-
-      const barBaseY = 250;
-
-      // Background bars
-      ctx.fillStyle = '#f5f5f7';
-      ctx.beginPath(); ctx.roundRect(430, barBaseY - 140, 30, 140, 8); ctx.fill();
-      ctx.beginPath(); ctx.roundRect(510, barBaseY - 140, 30, 140, 8); ctx.fill();
-      ctx.beginPath(); ctx.roundRect(590, barBaseY - 140, 30, 140, 8); ctx.fill();
-
-      // Energy bars
-      setShadow(ctx, 0, 4, 10, 'rgba(52, 199, 89, 0.3)');
-      ctx.fillStyle = '#34c759';
-      ctx.beginPath(); ctx.roundRect(430, barBaseY - K, 30, K, 8); ctx.fill();
-
-      setShadow(ctx, 0, 4, 10, 'rgba(191, 90, 242, 0.3)');
-      ctx.fillStyle = '#bf5af2';
-      ctx.beginPath(); ctx.roundRect(510, barBaseY - V, 30, V, 8); ctx.fill();
-
-      setShadow(ctx, 0, 4, 10, 'rgba(0, 113, 227, 0.3)');
-      ctx.fillStyle = '#0071e3';
-      ctx.beginPath(); ctx.roundRect(590, barBaseY - E, 30, E, 8); ctx.fill();
-      clearShadow(ctx);
-
-      ctx.fillStyle = '#1d1d1f';
-      ctx.font = '12px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif';
-      ctx.fillText("Kinetic", 445, 275);
-      ctx.fillText("Potential", 525, 275);
-      ctx.fillText("Total", 605, 275);
+      // Text for current Action
+      ctx.fillStyle = isOptimal ? '#22c55e' : '#888888';
+      ctx.font = 'bold 14px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif';
+      ctx.fillText(`S = ${currentS.toFixed(1)}`, cx, cy - 15);
 
       animationFrameId = requestAnimationFrame(render);
     };
@@ -164,32 +187,38 @@ export function PendulumSim() {
     return () => cancelAnimationFrame(animationFrameId);
   }, []);
 
-  const resetPendulum = () => {
-    // We can trigger a reset by forcing a re-render or using a ref.
-    // For simplicity, we'll just reload the component state if needed, 
-    // but since the animation is in a useEffect, we can just let it run.
-    // A better way is to expose a reset function, but let's just use a key to remount.
-  };
-
   return (
-    <div className="flex flex-col items-center my-12 bg-gray-50 rounded-3xl p-8 border border-gray-200">
-      <div className="text-xl font-semibold mb-2">Interactive: The Elegance of Scalars</div>
+    <div className="flex flex-col items-center my-12 bg-muted/30 rounded-3xl p-8 border border-border">
+      <div className="text-xl font-semibold mb-2">Interactive: The Principle of Least Action</div>
       <div className="text-sm text-muted-foreground text-center mb-6 max-w-2xl">
-        Newton tracks chaotic vectors (Left). Lagrange tracks two smooth scalar bars (Right).
+        Instead of tracking vectors, nature calculates a single scalar number called <strong>Action (S)</strong> for the entire path. The true physical path is the one where the Action is minimized.
       </div>
-      <div className="rounded-2xl overflow-hidden shadow-xl bg-white mb-6">
-        <canvas ref={canvasRef} width={700} height={320} className="max-w-full h-auto block" />
+      
+      <div className="rounded-2xl overflow-hidden shadow-xl bg-white dark:bg-zinc-900 mb-6 w-full max-w-[700px]">
+        <canvas ref={canvasRef} width={700} height={320} className="w-full h-auto block" />
       </div>
-      <button
-        onClick={() => {
-          // Force a remount by changing a key on the canvas wrapper if we wanted to,
-          // but for now we'll just let it swing.
-          window.location.reload(); // Simple hack for now, or better: implement a reset ref.
-        }}
-        className="px-6 py-3 bg-gray-200 text-gray-900 rounded-full font-medium hover:bg-gray-300 transition-colors"
-      >
-        Reset Pendulum (Reload)
-      </button>
+
+      <div className="w-full max-w-md flex flex-col items-center gap-2">
+        <label className="text-sm font-medium text-foreground flex justify-between w-full">
+          <span>Straight Line</span>
+          <span>Adjust Path Arc</span>
+          <span>High Arc</span>
+        </label>
+        <input
+          type="range"
+          min="0"
+          max="10"
+          step="0.1"
+          value={c}
+          onChange={(e) => setC(parseFloat(e.target.value))}
+          className="w-full h-2 bg-muted rounded-lg appearance-none cursor-pointer accent-primary"
+        />
+        <div className="text-sm text-center mt-3 h-6">
+          {Math.abs(c - 5) < 0.1
+            ? <span className="text-green-600 dark:text-green-400 font-bold">Nature's Path Found! Action is minimized.</span>
+            : <span className="text-muted-foreground">Slide to explore different paths. Notice how the Action (S) changes.</span>}
+        </div>
+      </div>
     </div>
   );
 }
@@ -220,7 +249,7 @@ export function MomentumSim() {
       ctx.roundRect(x - 15, 90, 30, 30, 6);
       ctx.fill();
       clearShadow(ctx);
-
+      
       ctx.fillStyle = '#ffffff';
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
@@ -263,7 +292,7 @@ export function MomentumSim() {
       // Draw System 1 (Left)
       drawBlock(state.sys1.x1, '#0071e3', "m");
       drawBlock(state.sys1.x2, '#86868b', "m");
-
+      
       // Draw System 2 (Right)
       drawBlock(state.sys2.x1, '#ff3b30', "m");
       drawBlock(state.sys2.x2, '#86868b', "m");
@@ -275,10 +304,10 @@ export function MomentumSim() {
       ctx.font = '14px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif';
       ctx.fillText("Experiment at x = 100", 140, 150);
       ctx.fillText("Experiment at x = 450", 490, 150);
-
+      
       ctx.fillStyle = '#86868b';
       ctx.font = '12px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif';
-      ctx.fillText("Identical outcomes prove Momentum is conserved.", canvas.width / 2, 180);
+      ctx.fillText("Identical outcomes prove Momentum is conserved.", canvas.width/2, 180);
 
       animationFrameId = requestAnimationFrame(render);
     };
@@ -302,7 +331,7 @@ export function MomentumSim() {
   };
 
   return (
-    <div className="flex flex-col items-center my-12 bg-gray-50 rounded-3xl p-8 border border-gray-200">
+    <div className="flex flex-col items-center my-12 bg-muted/30 rounded-3xl p-8 border border-border">
       <div className="text-xl font-semibold mb-2">Spatial Symmetry (Momentum Conservation)</div>
       <div className="text-sm text-muted-foreground text-center mb-6 max-w-2xl">
         Colliding blocks at x=100 behave identically to blocks at x=400 because space is uniform. Their total momentum never changes.
@@ -314,7 +343,7 @@ export function MomentumSim() {
         <button onClick={runSim} className="px-6 py-3 bg-blue-600 text-white rounded-full font-medium hover:bg-blue-700 transition-colors shadow-md hover:shadow-sm">
           Collide Blocks
         </button>
-        <button onClick={resetSim} className="px-6 py-3 bg-gray-200 text-gray-900 rounded-full font-medium hover:bg-gray-300 transition-colors">
+        <button onClick={resetSim} className="px-6 py-3 bg-secondary text-secondary-foreground rounded-full font-medium hover:opacity-90 transition-opacity">
           Reset Space
         </button>
       </div>
@@ -328,14 +357,14 @@ export function MomentumSim() {
 export function AngularSim() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [metrics, setMetrics] = useState({ radius: 120, omega: 0.02, L: 0 });
-
+  
   const stateRef = useRef({
     angle: 0,
     radius: 120,
     mass: 1,
     L_const: 1 * (120 * 120) * 0.02,
     isPulling: false,
-    trails: [] as { x: number, y: number }[]
+    trails: [] as {x: number, y: number}[]
   });
 
   useEffect(() => {
@@ -367,7 +396,7 @@ export function AngularSim() {
 
       // Trails
       if (frameCount % 2 === 0) {
-        state.trails.push({ x: bobX, y: bobY });
+        state.trails.push({x: bobX, y: bobY});
       }
       if (state.trails.length > 40) {
         state.trails.shift();
@@ -379,7 +408,7 @@ export function AngularSim() {
         ctx.strokeStyle = `rgba(191, 90, 242, ${alpha})`;
         ctx.beginPath();
         ctx.moveTo(state.trails[i].x, state.trails[i].y);
-        ctx.lineTo(state.trails[i + 1].x, state.trails[i + 1].y);
+        ctx.lineTo(state.trails[i+1].x, state.trails[i+1].y);
         ctx.stroke();
       }
 
@@ -390,7 +419,7 @@ export function AngularSim() {
       ctx.moveTo(originX, originY);
       ctx.lineTo(bobX, bobY);
       ctx.stroke();
-
+      
       ctx.fillStyle = '#1d1d1f';
       ctx.beginPath();
       ctx.arc(originX, originY, 5, 0, 2 * Math.PI);
@@ -430,24 +459,24 @@ export function AngularSim() {
   };
 
   return (
-    <div className="flex flex-col items-center my-12 bg-gray-50 rounded-3xl p-8 border border-gray-200">
+    <div className="flex flex-col items-center my-12 bg-muted/30 rounded-3xl p-8 border border-border">
       <div className="text-xl font-semibold mb-2">Rotational Symmetry (Angular Momentum)</div>
       <div className="text-sm text-muted-foreground text-center mb-6 max-w-2xl">
         Pull the mass inward. Notice how the rotation accelerates to keep the scalar quantity J = mr²ω perfectly constant!
       </div>
-
+      
       <div className="relative rounded-2xl overflow-hidden shadow-xl bg-white mb-6">
-        <div className="absolute top-4 left-4 text-sm font-mono z-10 pointer-events-none">
+        <div className="absolute top-4 left-4 text-sm font-mono z-10 pointer-events-none text-gray-900">
           <div>Radius (r): {metrics.radius.toFixed(0)}</div>
           <div>Velocity (ω): {metrics.omega.toFixed(3)}</div>
           <div className="text-purple-600 font-bold mt-1">Angular Momentum (J): {metrics.L.toFixed(0)} (Constant)</div>
         </div>
         <canvas ref={canvasRef} width={700} height={300} className="max-w-full h-auto block" />
       </div>
-
+      
       <div className="flex gap-4">
-        <button
-          onMouseDown={pullMass}
+        <button 
+          onMouseDown={pullMass} 
           onMouseUp={stopPull}
           onMouseLeave={stopPull}
           onTouchStart={pullMass}
@@ -456,7 +485,7 @@ export function AngularSim() {
         >
           Pull Mass Inward (Hold)
         </button>
-        <button onClick={resetSim} className="px-6 py-3 bg-gray-200 text-gray-900 rounded-full font-medium hover:bg-gray-300 transition-colors">
+        <button onClick={resetSim} className="px-6 py-3 bg-secondary text-secondary-foreground rounded-full font-medium hover:opacity-90 transition-opacity">
           Reset Orbit
         </button>
       </div>
@@ -470,9 +499,9 @@ export function AngularSim() {
 export function ThermoSim() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [internalEnergy, setInternalEnergy] = useState(0);
-
+  
   const stateRef = useRef({
-    particles: [] as { x: number, y: number, vx: number, vy: number }[],
+    particles: [] as {x: number, y: number, vx: number, vy: number}[],
     pistonX: 550,
     isCompressing: false
   });
@@ -535,7 +564,7 @@ export function ThermoSim() {
       ctx.roundRect(state.pistonX, 12, 680 - state.pistonX - 2, 276, 8);
       ctx.fill();
       clearShadow(ctx);
-
+      
       ctx.fillStyle = '#d2d2d7';
       ctx.beginPath();
       ctx.roundRect(state.pistonX, 12, 8, 276, 4);
@@ -552,31 +581,37 @@ export function ThermoSim() {
         if (pt.x < 15) { pt.x = 15; pt.vx *= -1; }
         if (pt.y < 15) { pt.y = 15; pt.vy *= -1; }
         if (pt.y > 285) { pt.y = 285; pt.vy *= -1; }
-
+        
         // Bounce piston (Transfer of Macroscopic Work to Microscopic Energy)
         if (pt.x > state.pistonX - 5) {
           pt.x = state.pistonX - 5;
-          pt.vx *= -1;
-          if (state.isCompressing) pt.vx -= 3.0; // Piston does Work!
+          // Piston velocity is -3 if compressing, 0 otherwise
+          const vPiston = state.isCompressing ? -3 : 0;
+          // Relative velocity
+          const vRel = pt.vx - vPiston;
+          // If moving towards the piston (vRel > 0)
+          if (vRel > 0) {
+            pt.vx = -vRel + vPiston;
+          }
         }
 
         const speed = Math.sqrt(pt.vx * pt.vx + pt.vy * pt.vy);
         totalEnergy += 0.5 * (speed * speed);
-
+        
         // Color based on temperature/speed
         let lerpAmt = (speed - 1) / 6;
         if (lerpAmt < 0) lerpAmt = 0;
         if (lerpAmt > 1) lerpAmt = 1;
-
+        
         const c = lerpColor(coldColor, hotColor, lerpAmt);
-
+        
         // Glow effect for hot particles
         if (speed > 4) {
           setShadow(ctx, 0, 0, 10, 'rgba(255, 59, 48, 0.5)');
         } else {
           clearShadow(ctx);
         }
-
+        
         ctx.fillStyle = c;
         ctx.beginPath();
         ctx.arc(pt.x, pt.y, 4, 0, 2 * Math.PI);
@@ -606,25 +641,25 @@ export function ThermoSim() {
   const stopCompress = () => { stateRef.current.isCompressing = false; };
 
   return (
-    <div className="flex flex-col items-center my-12 bg-gray-50 rounded-3xl p-8 border border-gray-200">
+    <div className="flex flex-col items-center my-12 bg-muted/30 rounded-3xl p-8 border border-border">
       <div className="text-xl font-semibold mb-2">Visualizing Heat and Work</div>
       <div className="text-sm text-muted-foreground text-center mb-6 max-w-2xl">
         Particles turn <span className="text-red-500 font-bold">red</span> as their microscopic scalar energy increases. Work is organized macroscopic pushing; Heat is random microscopic jiggling.
       </div>
-
+      
       <div className="rounded-2xl overflow-hidden shadow-xl bg-white mb-4">
         <canvas ref={canvasRef} width={700} height={300} className="max-w-full h-auto block" />
       </div>
-
+      
       <div className="mb-6 text-lg font-medium">
-        Internal Energy (U): <span className="font-mono text-blue-600 bg-blue-50 px-3 py-1 rounded-lg">{internalEnergy.toFixed(0)} J</span>
+        Internal Energy (U): <span className="font-mono text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-950/50 px-3 py-1 rounded-lg">{internalEnergy.toFixed(0)} J</span>
       </div>
-
+      
       <div className="flex flex-wrap justify-center gap-4">
         <button onClick={addHeat} className="px-6 py-3 bg-red-500 text-white rounded-full font-medium hover:bg-red-600 transition-colors shadow-md hover:shadow-sm">
           Add Heat (δQ)
         </button>
-        <button
+        <button 
           onMouseDown={startCompress}
           onMouseUp={stopCompress}
           onMouseLeave={stopCompress}
@@ -634,11 +669,10 @@ export function ThermoSim() {
         >
           Compress (δW)
         </button>
-        <button onClick={initParticles} className="px-6 py-3 bg-gray-200 text-gray-900 rounded-full font-medium hover:bg-gray-300 transition-colors">
+        <button onClick={initParticles} className="px-6 py-3 bg-secondary text-secondary-foreground rounded-full font-medium hover:opacity-90 transition-opacity">
           Reset Gas
         </button>
       </div>
     </div>
   );
 }
-

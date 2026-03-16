@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
-import { getHighlightedPosts, formatDate } from '@/lib/posts';
+import { getHighlightedPosts } from '@/lib/posts';
+import { formatDate } from '@/lib/utils';
 import FadeIn from '@/components/FadeIn';
 
 export default function Home() {
@@ -50,7 +51,7 @@ export default function Home() {
                       {formatDate(post.date)}
                     </time>
                     {post.categories.length > 0 && (
-                      <span>&middot; {post.categories.join(', ')}</span>
+                      <span>&middot; {post.categories.join(' / ')}</span>
                     )}
                   </div>
                 </Link>

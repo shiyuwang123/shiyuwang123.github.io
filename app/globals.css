@@ -23,6 +23,18 @@
     --accent-1: #e11d48;
     --accent-2: #4f46e5;
     --accent-3: #ea580c;
+    --plot-surface: #ffffff;
+    --plot-text: #0f172a;
+    --plot-muted-text: #64748b;
+    --plot-border: #dbe5f1;
+    --plot-axis: #475569;
+    --plot-grid: rgba(100, 116, 139, 0.26);
+    --plot-pick: #f97316;
+    --plot-series-1: #2563eb;
+    --plot-series-2: #e11d48;
+    --plot-series-3: #0891b2;
+    --plot-series-4: #7c3aed;
+    --plot-series-5: #ea580c;
   }
 
   @media (prefers-color-scheme: dark) {
@@ -36,6 +48,18 @@
       --accent-1: #f43f5e;
       --accent-2: #6366f1;
       --accent-3: #f97316;
+      --plot-surface: #172233;
+      --plot-text: #e2e8f0;
+      --plot-muted-text: #94a3b8;
+      --plot-border: #334155;
+      --plot-axis: #cbd5e1;
+      --plot-grid: rgba(148, 163, 184, 0.26);
+      --plot-pick: #fb923c;
+      --plot-series-1: #60a5fa;
+      --plot-series-2: #fb7185;
+      --plot-series-3: #22d3ee;
+      --plot-series-4: #c084fc;
+      --plot-series-5: #fb923c;
     }
   }
 

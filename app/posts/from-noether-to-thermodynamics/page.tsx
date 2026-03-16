@@ -1,13 +1,13 @@
 import PostLayout from '@/components/PostLayout';
 import Math from '@/components/Math';
-import { PendulumSim, MomentumSim, AngularSim, ThermoSim } from '@/components/NoetherAnimations';
+import { LeastActionSim, MomentumSim, AngularSim, ThermoSim } from '@/components/NoetherAnimations';
 
 export default function FromNoetherToThermodynamics() {
   return (
     <PostLayout
-      title="From Noether Theorem to Thermodynamics"
+      title="From Noether theorem to Thermodynamics"
       date="2026-03-10 21:41:00 -0700"
-      categories={['Physics', 'Mathematics']}
+      categories={['Physics', 'Thermodynamics']}
       tags={['Noether', 'Thermodynamics', 'Symmetry', 'Calculus']}
       isHighlight={true}
     >
@@ -38,12 +38,12 @@ export default function FromNoetherToThermodynamics() {
         Nature inherently obeys the <strong>Principle of Least Action</strong>. Out of all possible paths a particle could take, it chooses the path that <em>minimizes</em> the accumulation of <Math math="L" /> over time. Just like setting a derivative to zero in calculus finds a minimum, we use the <strong>Euler-Lagrange Equation</strong> to find this path:
       </p>
       
-      <div className="bg-blue-50 border border-blue-200 rounded-2xl p-6 my-8 text-center">
-        <strong className="text-blue-900 block mb-4">The Euler-Lagrange Equation</strong>
+      <div className="bg-blue-50 dark:bg-blue-950/30 border border-blue-200 dark:border-blue-900 rounded-2xl p-6 my-8 text-center">
+        <strong className="text-blue-900 dark:text-blue-200 block mb-4">The Euler-Lagrange Equation</strong>
         <Math math="\frac{d}{dt}\left(\frac{\partial L}{\partial \dot{q}}\right) - \frac{\partial L}{\partial q} = 0" block />
       </div>
 
-      <PendulumSim />
+      <LeastActionSim />
 
       <h2>3. Spatial Symmetry &rarr; Momentum</h2>
       <p>
@@ -98,9 +98,9 @@ export default function FromNoetherToThermodynamics() {
         This constant is <strong>Energy</strong>. (If you plug in <Math math="L = K-V" />, you get <Math math="E = K+V" />).
       </p>
 
-      <div className="bg-orange-50 border-l-4 border-orange-500 p-6 rounded-r-2xl my-8">
-        <strong className="text-orange-900 block mb-2 text-lg">The Noether Master Key:</strong>
-        <ul className="list-disc pl-5 space-y-2 text-orange-900">
+      <div className="bg-orange-50 dark:bg-orange-950/30 border-l-4 border-orange-500 p-6 rounded-r-2xl my-8">
+        <strong className="text-orange-900 dark:text-orange-200 block mb-2 text-lg">The Noether Master Key:</strong>
+        <ul className="list-disc pl-5 space-y-2 text-orange-900 dark:text-orange-200">
           <li>Space is uniform &rarr; <strong>Momentum</strong> is conserved.</li>
           <li>Space is isotropic &rarr; <strong>Angular Momentum</strong> is conserved.</li>
           <li>Time is uniform &rarr; <strong>Energy</strong> is conserved.</li>
@@ -130,11 +130,11 @@ export default function FromNoetherToThermodynamics() {
         <li><strong>Work (<Math math="\delta W" />):</strong> Energy transferred through macroscopic, organized force (a piston).</li>
       </ul>
       <p>
-        Because Noether mathematically guarantees total energy is constant, the change in the internal energy <em>must</em> equal the heat added minus the work done by the system.
+        Because Noether mathematically guarantees total energy is constant, the change in the internal energy <em>must</em> equal the heat added plus the work done on the system.
       </p>
-      <Math math="dU = \delta Q - \delta W" block />
+      <Math math="dU = \delta Q + \delta W" block />
       
-      <p className="text-lg font-medium bg-gray-50 p-6 rounded-2xl border border-gray-200 mt-8">
+      <p className="text-lg font-medium bg-muted p-6 rounded-2xl border border-border mt-8">
         <strong>Conclusion:</strong> The First Law of Thermodynamics is not a separate rule of nature. It is the direct macroscopic manifestation of <em>Time Translation Symmetry</em> operating on a microscopic scale!
       </p>
     </PostLayout>

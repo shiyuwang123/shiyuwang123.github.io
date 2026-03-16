@@ -149,3 +149,94 @@ Renders syntax-highlighted code snippets using `react-syntax-highlighter`.
 Renders LaTeX math formulas using KaTeX.
 - `math` (string): The LaTeX formula.
 - `block` (boolean): Optional. Set to `true` for block-level display equations.
+
+#### `vtk.js Plotters`
+Interactive plotting utilities are available through `@/components/VtkPlotters`.
+
+```tsx
+import { Plot2D, Plot3D, LinePlot2D, PointCloud3D } from '@/components/VtkPlotters';
+```
+
+##### Direct API: `<Plot2D />`
+- `data` (Plot2DSeries[]): Required array of named series.
+- `xAxis`, `yAxis`: Axis settings with `title`, `scale` (`linear` or `log`), optional `domain`.
+- `legend`: `{ title?: string; show?: boolean }`.
+- `grid`: `{ show?: boolean; majorDivisions?: number }`.
+- `interactions`: `{ panZoom?: boolean; pointPicking?: boolean }`.
+- `height`: Optional fixed chart height.
+
+Example:
+
+```tsx
+<Plot2D
+  title="Loss Curves"
+  xAxis={{ title: 'Epoch', scale: 'linear' }}
+  yAxis={{ title: 'Loss', scale: 'log' }}
+  interactions={{ panZoom: true, pointPicking: true }}
+  legend={{ title: 'Training Runs' }}
+  data={[
+    { name: 'run-a', type: 'line', points: [{ x: 1, y: 0.8 }, { x: 2, y: 0.4 }] },
+    { name: 'run-b', type: 'line+scatter', points: [{ x: 1, y: 1.0 }, { x: 2, y: 0.55 }] },
+  ]}
+/>
+```
+
+##### Direct API: `<Plot3D />`
+- `data`: `{ points?: Plot3DPoint[]; surfaces?: Plot3DSurface[]; pointSize?; pointColor?; pointColorMap? }`.
+- `xAxis`, `yAxis`, `zAxis`: Axis settings with `title`, `scale`, optional `domain`.
+- `interactions`: `{ orbitPanZoom?: boolean; pointPicking?: boolean; clipping?: boolean; slicing?: boolean }`.
+- `cameraPreset`: `isometric`, `top`, `front`, or `side`.
+- `clippingAxis`, `slicingAxis`: `x`, `y`, or `z`.
+
+Example:
+
+```tsx
+<Plot3D
+  title="Field Visualization"
+  xAxis={{ title: 'x', scale: 'linear' }}
+  yAxis={{ title: 'y', scale: 'linear' }}
+  zAxis={{ title: 'z', scale: 'linear' }}
+  cameraPreset="isometric"
+  clippingAxis="z"
+  slicingAxis="x"
+  interactions={{ orbitPanZoom: true, pointPicking: true, clipping: true, slicing: true }}
+  data={{
+    points: [{ x: 0, y: 0, z: 0, value: 0.2 }],
+    pointColorMap: 'viridis',
+  }}
+/>
+```
+
+##### Wrapper API
+- `LinePlot2D`: Fast single-series line chart wrapper.
+- `ScatterPlot2D`: Fast single-series scatter chart wrapper.
+- `PointCloud3D`: Fast point-cloud wrapper.
+- `SurfacePlot3D`: Fast single-surface wrapper.
+
+Example:
+
+```tsx
+<LinePlot2D
+  title="Growth"
+  xAxis={{ title: 'Step', scale: 'linear' }}
+  yAxis={{ title: 'Metric', scale: 'linear' }}
+  interactions={{ panZoom: true, pointPicking: true }}
+  points={[
+    { x: 1, y: 2.0 },
+    { x: 2, y: 2.6 },
+    { x: 3, y: 3.1 },
+  ]}
+/>
+```
+
+##### Theme Support
+Plot colors are bound to CSS variables in `app/globals.css` and automatically sync with system light/dark mode changes.
+
+##### Utility Modules
+Shared utilities are located in:
+- `lib/plot/types.ts` (typed API contracts)
+- `lib/plot/adapters.ts` (array-to-plot adapters and scale transforms)
+- `lib/plot/colors.ts` (colormaps and color conversion helpers)
+- `lib/plot/presets.ts` (axes, grid, and camera presets)
+- `hooks/use-plot-theme.ts` (live theme token sync)
+- `hooks/use-responsive-plot-size.ts` (responsive resize handling)

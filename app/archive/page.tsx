@@ -1,5 +1,6 @@
 import Link from 'next/link';
-import { getAllPosts, formatDate } from '@/lib/posts';
+import { getAllPosts } from '@/lib/posts';
+import { formatDate } from '@/lib/utils';
 import FadeIn from '@/components/FadeIn';
 
 export default function Archive() {
