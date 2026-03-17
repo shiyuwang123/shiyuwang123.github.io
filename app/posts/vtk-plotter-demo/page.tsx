@@ -99,9 +99,9 @@ export default function VtkPlotterDemo() {
     <PostLayout
       title="vtk.js Plotters Demo"
       date="2026-03-16 16:20:00 -0700"
-      categories={['Data Visualization', 'Engineering']}
+      categories={['Data Visualization', 'Test']}
       tags={['vtk.js', 'plotter', 'next.js', 'interactive']}
-      isHighlight={true}
+      isHighlight={false}
     >
       <p className="text-xl text-muted-foreground mb-10">
         This post demonstrates the new vtk.js plotting toolkit for this blog: direct 2D and 3D APIs plus wrapper shortcuts for fast authoring.
