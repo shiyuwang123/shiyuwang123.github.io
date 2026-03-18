@@ -84,6 +84,9 @@
 .prose h1 { @apply text-5xl; }
 .prose h2 { @apply text-4xl border-b border-[var(--border)] pb-4; }
 .prose h3 { @apply text-2xl; }
+.prose h4 { @apply text-xl; }
+.prose h5 { @apply text-lg; }
+.prose h6 { @apply text-base; }
 .prose a {
   @apply text-[var(--primary)] hover:underline;
 }
