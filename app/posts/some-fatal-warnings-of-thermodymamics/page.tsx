@@ -1,18 +1,21 @@
 import PostLayout from '@/components/PostLayout';
 import Math from '@/components/Math';
+import FadeIn from '@/components/FadeIn';
 
 export default function Post() {
   return (
     <PostLayout
       title="Some Fatal Warnings about Thermodynamics"
-      date="2026-03-17 20:00:00 +0800"
+      date="2026-03-18 20:00:00 +0800"
       categories={["Physics", "Thermodynamics"]}
       isHighlight={true}
     >
+      <FadeIn delay={0.1}>
       <p>When we learn Thermodynamics, there are some thing rather confusing and error prone.
         here, I will list some of them, and to eliminate some misunderstandings.
       </p>
-      
+      </FadeIn>
+      <FadeIn delay={0.2}>
       <h3>Fatal Warning 1: The relation between Enthalpy and isobar heat </h3>
       <p>Some textbooks address that the change of Enthalpy equals the heat
         while the system undergoes an isobaric process. 
@@ -31,7 +34,8 @@ export default function Post() {
       <Math math="dH = dq + (P_{sys} - P_{sur})dV_{sys}" block />
       <p>Therefore, only when <Math math="P_{sys} = P_{sur}"/>, namely, the process is reversible, we have <Math math="dH = dq"/>. </p>
       <p>In fact, the reversible process is a special case of the general process, and the relation between Enthalpy and heat is more complicated than that. So, we should be careful when we use this relation, and we should always check the conditions before applying it.</p>
-
+      </FadeIn>
+      <FadeIn delay={0.3}>
       <h3>Fatal Warning 2: Gibbs and Helmholtz Free Energies.</h3>
       <p>The core idea of Gibbs and Helmholtz free energy is to 
         consider the system and environment as a isolated system, 
@@ -46,6 +50,8 @@ export default function Post() {
       <p>Consider the environment is big enough so that its temperature is constant.
         Then, the change of the total entropy of the isolated system is: </p>
       <Math math="dS_{iso} = dS_{sys} + dS_{sur} \geq dS_{sys} - \frac{d Q}{T_{sur}}" block />
+      </FadeIn>
+      <FadeIn delay={0.4}>
       <h4>isochoric process</h4>
       <p>For an isochoric process, we have: <Math math='dQ = dU'/>so that:</p>
       <Math math="dS_{iso} \geq dS_{sys} - \frac{dU}{T_{sur}} = \frac{1}{T_{sur}}(T_{sur}dS_{sys} - dU)" block />
@@ -59,6 +65,8 @@ export default function Post() {
       <p>As you saw, a lot of assumptions was introduced into the deduction.
         So, the criteria of Helmholtz free energy is only valid for isothermal process, and <strong>the system temperature must be identical to the surrounding temperature.</strong>
       </p>
+      </FadeIn>
+      <FadeIn delay={0.5}>
 
       <h4>isobaric process</h4>
       <p>For an isobaric process<strong>where system pressure equals surrounding pressure</strong>, we have: <Math math='dQ = dH'/>so that:</p>
@@ -75,6 +83,7 @@ export default function Post() {
         </p>
 
       <p>In conclusion, the criteria of free energies are only valid for isothermal processes, and <strong>the system temperature must be identical to the surrounding temperature.</strong> So, we should be careful when we use these criteria, and we should always check the conditions before applying them.</p>
+      </FadeIn>
     <h3>Others</h3>
     <p>Currently, I'm reviewing the concepts of thermodynamics and their applications. So I will update my new findings here.</p>
     </PostLayout>

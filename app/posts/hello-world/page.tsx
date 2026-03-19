@@ -1,6 +1,7 @@
 import PostLayout from '@/components/PostLayout';
 import CodeBlock from '@/components/CodeBlock';
 import Math from '@/components/Math';
+import FadeIn from '@/components/FadeIn';
 
 export default function Post() {
   return (
@@ -9,6 +10,7 @@ export default function Post() {
       date="2025-06-25 00:00:00 +0800"
       isHighlight={false}
     >
+      <FadeIn delay={0.1}>
       <h2>Hello World</h2>
       <p>my first post.<br />试一下中文</p>
       
@@ -23,6 +25,7 @@ int main() {
     std::cout << "Hello World" << std::endl;
     return 0;
 }`} />
+    </FadeIn>
     </PostLayout>
   );
 }
